@@ -1,5 +1,5 @@
-from lib.models.job import Job
-from lib.db import SessionLocal
+from cp_lib.models.jobs import Job
+from cp_lib.db import SessionLocal
 
 
 # repositories/jobs_repository.py

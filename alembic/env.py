@@ -1,30 +1,32 @@
 import os
-from logging.config import fileConfig
+import sys
 
+# Add the project root to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
+from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
-from chronos_lib.db import Base  # your declarative base
+from cp_lib.db import Base  # your declarative base
 
-
-# this is the Alembic Config object, which provides
-# access to values within the .ini file in use.
+# Alembic Config object for accessing .ini file values
 config = context.config
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
+# Set up logging
 fileConfig(config.config_file_name)
 
-# Import your Base and models here so Alembic can generate migrations
+# Set the database URL from the environment variable
+db_url = os.getenv("CHRONOS_DB_URL")
+if db_url:
+    config.set_main_option("sqlalchemy.url", db_url)
 
+# Metadata for migrations
 target_metadata = Base.metadata
 
 # Override sqlalchemy.url from environment variable if set
 config.set_main_option(
     "sqlalchemy.url",
-    os.getenv(
-        "CHRONOS_DB_URL",
-        config.get_main_option("sqlalchemy.url")
-    )
+    os.getenv("CHRONOS_DB_URL", config.get_main_option("sqlalchemy.url"))
 )
 
 
@@ -35,7 +37,7 @@ def run_migrations_offline():
         url=url,
         target_metadata=target_metadata,
         literal_binds=True,
-        compare_type=True,     # detect type changes
+        compare_type=True,  # detect type changes
     )
 
     with context.begin_transaction():
@@ -54,13 +56,14 @@ def run_migrations_online():
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            compare_type=True,    # detect type changes
+            compare_type=True,  # detect type changes
         )
 
         with context.begin_transaction():
             context.run_migrations()
 
 
+# Execute migrations based on the mode
 if context.is_offline_mode():
     run_migrations_offline()
 else:

@@ -1,6 +1,6 @@
 import uuid
-from lib.models.job import Job
-from lib.repositories.job_repository import JobRepository
+from cp_lib.models.job import Job
+from cp_lib.repositories.job_repository import JobRepository
 
 
 class JobService:
