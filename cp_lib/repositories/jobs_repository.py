@@ -13,8 +13,12 @@ class JobRepository:
         self.db.refresh(job)
         return job
 
-    def get(self, job_id: str):
-        return self.db.query(Job).filter(Job.id == job_id).first()
+    def get(self, job_id: str, client_id: str = None):
+        q = self.db.query(Job)
+        return q.filter(Job.id == job_id, Job.client_id == client_id).first()
 
-    def list(self):
-        return self.db.query(Job).all()
+    def list(self, client_id: str = None):
+        q = self.db.query(Job)
+        if client_id:
+            q = q.filter(Job.client_id == client_id)
+        return q.all()

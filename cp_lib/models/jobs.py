@@ -19,6 +19,7 @@ class Job(db.Model):
         primary_key=True,
         default=lambda: str(uuid.uuid4())
     )
+    clinet_id = db.Column(db.String(36), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     schedule = db.Column(
         db.String,
