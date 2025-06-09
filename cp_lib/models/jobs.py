@@ -1,4 +1,4 @@
-from cpp_lib.db import db
+from cp_lib.db import db
 from enum import Enum
 import uuid
 
