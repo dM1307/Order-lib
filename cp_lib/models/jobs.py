@@ -1,9 +1,12 @@
-from cp_lib.db import Base
-from enum import Enum
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String, Enum, Integer, DateTime, func
+from enum import Enum as PyEnum
 import uuid
 
+Base = declarative_base()
 
-class JobStatus(Enum):
+
+class JobStatus(PyEnum):
     PENDING = "PENDING"
     RUNNING = "RUNNING"
     COMPLETED = "COMPLETED"
@@ -14,33 +17,33 @@ class Job(Base):
 
     __tablename__ = 'jobs'
 
-    id = Base.Column(
-        Base.String(36),
+    id = Column(
+        String(36),
         primary_key=True,
         default=lambda: str(uuid.uuid4())
     )
-    clinet_id = Base.Column(Base.String(36), nullable=False)
-    name = Base.Column(Base.String(255), nullable=False)
-    schedule = Base.Column(
-        Base.String,
+    client_id = Column(String(36), nullable=False)
+    name = Column(String(255), nullable=False)
+    schedule = Column(
+        String,  # Changed from Base.String to String
         nullable=False  # cron or interval
     )
-    status = Base.Column(
-        Base.Enum(JobStatus),
+    status = Column(
+        Enum(JobStatus),
         default=JobStatus.PENDING,
         nullable=False
     )
-    retries = Base.Column(Base.Integer, default=0)
-    priority = Base.Column(Base.Integer, default=5)
-    created_at = Base.Column(
-        Base.DateTime,
-        server_default=Base.func.now(),
+    retries = Column(Integer, default=0)
+    priority = Column(Integer, default=5)
+    created_at = Column(
+        DateTime,  # Changed from Base.DateTime to DateTime
+        server_default=func.now(),
         nullable=False
     )
-    updated_at = Base.Column(
-        Base.DateTime,
-        server_default=Base.func.now(),
-        onupdate=Base.func.now(),
+    updated_at = Column(
+        DateTime,  # Changed from Base.DateTime to DateTime
+        server_default=func.now(),
+        onupdate=func.now(),
         nullable=False
     )
 
