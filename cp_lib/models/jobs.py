@@ -1,4 +1,4 @@
-from cp_lib.db import db
+from cp_lib.db import Base
 from enum import Enum
 import uuid
 
@@ -10,37 +10,37 @@ class JobStatus(Enum):
     FAILED = "FAILED"
 
 
-class Job(db.Model):
+class Job(Base):
 
     __tablename__ = 'jobs'
 
-    id = db.Column(
-        db.String(36),
+    id = Base.Column(
+        Base.String(36),
         primary_key=True,
         default=lambda: str(uuid.uuid4())
     )
-    clinet_id = db.Column(db.String(36), nullable=False)
-    name = db.Column(db.String(255), nullable=False)
-    schedule = db.Column(
-        db.String,
+    clinet_id = Base.Column(Base.String(36), nullable=False)
+    name = Base.Column(Base.String(255), nullable=False)
+    schedule = Base.Column(
+        Base.String,
         nullable=False  # cron or interval
     )
-    status = db.Column(
-        db.Enum(JobStatus),
+    status = Base.Column(
+        Base.Enum(JobStatus),
         default=JobStatus.PENDING,
         nullable=False
     )
-    retries = db.Column(db.Integer, default=0)
-    priority = db.Column(db.Integer, default=5)
-    created_at = db.Column(
-        db.DateTime,
-        server_default=db.func.now(),
+    retries = Base.Column(Base.Integer, default=0)
+    priority = Base.Column(Base.Integer, default=5)
+    created_at = Base.Column(
+        Base.DateTime,
+        server_default=Base.func.now(),
         nullable=False
     )
-    updated_at = db.Column(
-        db.DateTime,
-        server_default=db.func.now(),
-        onupdate=db.func.now(),
+    updated_at = Base.Column(
+        Base.DateTime,
+        server_default=Base.func.now(),
+        onupdate=Base.func.now(),
         nullable=False
     )
 
