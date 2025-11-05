@@ -172,29 +172,6 @@ session.commit()
 
 * Code style: Follows `PEP8` (configured via `setup.cfg`).
 
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here’s how you can help:
-
-* 📌 Open issues for bugs or ideas.
-* 🔀 Submit pull requests with clear descriptions.
-* 🧪 Add/extend tests to keep the library reliable.
-
----
-
-## 📜 License
-
-This project currently has no explicit license.
-If you plan to use it in production, we recommend adding a license such as **MIT** or **Apache-2.0**.
-
----
-
-## 🙌 Acknowledgments
-
-* Built with ❤️ using [SQLAlchemy](https://www.sqlalchemy.org/) and [Alembic](https://alembic.sqlalchemy.org/).
-* Designed to integrate with orchestration systems like **Chronos Scheduler**.
 
 ---
 
